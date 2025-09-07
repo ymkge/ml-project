@@ -1,0 +1,31 @@
+# Git
+.git
+.gitignore
+
+# Docker
+.dockerignore
+Dockerfile
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+venv/
+
+# Notebooks
+notebooks/
+.ipynb_checkpoints/
+
+# Data and models
+data/
+*.pkl
+
+# MLflow
+mlruns/
+.mlflow-cache/
+
+# IDEs
+.vscode/
+.idea/
