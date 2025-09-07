@@ -5,3 +5,5 @@ pandas
 mlflow
 python-multipart
 kaggle
+pytest
+httpx
