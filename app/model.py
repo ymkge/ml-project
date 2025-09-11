@@ -38,7 +38,7 @@ def predict(input_data: PredictionInput) -> PredictionOutput:
         )
 
     # Convert Pydantic model to DataFrame
-    input_df = pd.DataFrame([input_data.dict()])
+    input_df = pd.DataFrame([input_data.model_dump()])
 
     # Get prediction (returns a list with one value)
     pred = model.predict(input_df)[0]

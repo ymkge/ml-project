@@ -1,11 +1,13 @@
 import sys
 import os
 from fastapi.testclient import TestClient
+from unittest.mock import patch
 
 # Add the project root to the Python path to allow imports from `app`
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from app.main import app
+from app.model import PredictionOutput
 
 # Create a TestClient instance
 client = TestClient(app)
@@ -18,8 +20,12 @@ def test_health_check():
     assert response.json() == {"status": "ok"}
 
 
-def test_predict_success():
+@patch("app.main.predict")
+def test_predict_success(mock_predict):
     """Tests a successful prediction through the /predict endpoint."""
+    # Configure the mock to return a dummy prediction
+    mock_predict.return_value = PredictionOutput(prediction=1, probability=0.9)
+    
     payload = {
         "Pclass": 3,
         "Sex": "male",
@@ -30,12 +36,11 @@ def test_predict_success():
         "Embarked": "S"
     }
     response = client.post("/predict", json=payload)
+    
     assert response.status_code == 200
     data = response.json()
-    assert "prediction" in data
-    assert "probability" in data
-    assert isinstance(data["prediction"], int)
-    assert isinstance(data["probability"], float)
+    assert data["prediction"] == 1
+    assert data["probability"] == 0.9
 
 
 def test_predict_validation_error():
